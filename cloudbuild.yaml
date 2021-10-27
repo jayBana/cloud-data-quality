@@ -50,6 +50,20 @@ steps:
   
         bin/bazelisk build //clouddq:clouddq
         
+        export GOOGLE_CLOUD_PROJECT="${_GOOGLE_CLOUD_PROJECT}"
+        
+        export CLOUDDQ_BIGQUERY_DATASET="${_CLOUDDQ_BIGQUERY_DATASET}"
+        
+        export CLOUDDQ_BIGQUERY_REGION="${_CLOUDDQ_BIGQUERY_REGION}"
+        
+        export GOOGLE_APPLICATION_CREDENTIALS="${_IMPERSONATION_SERVICE_ACCOUNT}"
+        
+        export GOOGLE_SDK_CREDENTIALS="${_IMPERSONATION_SERVICE_ACCOUNT}"
+        
+        export IMPERSONATION_SERVICE_ACCOUNT="${_IMPERSONATION_SERVICE_ACCOUNT}"
+
+        env
+
         make test-pip-install
   
         make test
