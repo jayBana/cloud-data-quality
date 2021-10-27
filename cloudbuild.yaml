@@ -1,0 +1,60 @@
+steps:
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    args:
+      - info
+    entrypoint: gcloud
+  - name: 'ubuntu:18.04'
+    args:
+      - '-c'
+      - env
+    entrypoint: /bin/bash
+  - name: 'ubuntu:18.04'
+    args:
+      - '-c'
+      - pwd
+    entrypoint: /bin/bash
+  - name: 'ubuntu:18.04'
+    args:
+      - '-c'
+      - ls
+    entrypoint: /bin/bash
+  - name: 'ubuntu:18.04'
+    args:
+      - '-c'
+      - chmod -R +x scripts
+    entrypoint: /bin/bash
+  - name: 'ubuntu:18.04'
+    args:
+      - '-c'
+      - >
+        scripts/install_development_dependencies.sh
+
+        apt-get update
+
+        apt-get -y install make
+
+        make -v
+
+        ls -ltr
+
+        echo "common
+        --remote_cache=https://storage.googleapis.com/dataplex-clouddq-bazel-cache"
+        >> .bazelrc
+
+        echo "common --google_default_credentials" >> .bazelrc
+
+        make build
+    entrypoint: /bin/bash
+timeout: 7200s
+logsBucket: 'gs://dataplex-clouddq-github-cloud-build'
+options:
+  logStreamingOption: STREAM_ON
+  pool:
+    name: >-
+      projects/dataplex-clouddq/locations/europe-west6/workerPools/cloud-build-private-pool
+  env:
+  - '_GOOGLE_CLOUD_PROJECT=dataplex-clouddq'
+  - '_CLOUDDQ_BIGQUERY_DATASET=dq_test'
+  - '_CLOUDDQ_BIGQUERY_REGION=EU'
+  - '_IMPERSONATION_SERVICE_ACCOUNT=clouddq-runner@dataplex-clouddq.iam.gserviceaccount.com'
+serviceAccount: 'projects/dataplex-clouddq/serviceAccounts/github-action@dataplex-clouddq.iam.gserviceaccount.com'
