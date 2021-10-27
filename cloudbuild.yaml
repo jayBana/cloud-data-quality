@@ -21,7 +21,9 @@ steps:
   - name: 'ubuntu:18.04'
     args:
       - '-c'
-      - chmod -R +x scripts
+      - >
+        chmod -R +x scripts
+        cat cloudbuild.yaml
     entrypoint: /bin/bash
   - name: 'ubuntu:18.04'
     args:
