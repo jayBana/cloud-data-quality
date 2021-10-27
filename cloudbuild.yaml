@@ -42,8 +42,12 @@ steps:
         >> .bazelrc
 
         echo "common --google_default_credentials" >> .bazelrc
-
-        make build
+        
+        make bin/bazelisk
+        bin/bazelisk build //clouddq:clouddq
+        
+        make test-pip-install
+        make test
     entrypoint: /bin/bash
 timeout: 7200s
 logsBucket: 'gs://dataplex-clouddq-github-cloud-build'
