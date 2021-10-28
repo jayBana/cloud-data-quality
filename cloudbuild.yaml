@@ -36,6 +36,8 @@ steps:
 
         apt-get -y install make
 
+        apt-get -y install python-is-python3
+
         make -v
 
         ls -ltr
